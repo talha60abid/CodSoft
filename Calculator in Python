@@ -1,0 +1,73 @@
+from tkinter import *
+
+def click(event):
+    text = event.widget.cget("text")
+    print(text)
+    if text == "=":
+        if scvalue.get().isdigit():
+            value = int(scvalue.get())
+        else:
+            value = eval(screen.get())
+        scvalue.set(value)
+        screen.update()
+    elif text == "C":
+        scvalue.set("")
+        screen.update()
+    else:
+        scvalue.set(scvalue.get() + text)
+        screen.update()
+
+root = Tk()
+root.geometry("500x750")
+root.title("Calculator by Talha Abid")
+root.configure(bg="#a52a2a")
+Image_icon = PhotoImage(file="Calc.png")
+root.iconphoto(False, Image_icon)
+
+scvalue = StringVar()
+scvalue.set("")
+screen = Entry(root, textvar=scvalue, font="calibri 40 bold", bg="#c0c0c0", justify="right")
+screen.pack(fill=X, ipadx=8, padx=10, pady=10)
+
+button_frame = Frame(root, bg="#a52a2a")
+
+buttons = [
+    ('C', 30),
+    ('%', 30),
+    ('+', 30),
+    ('-', 30),
+    ('9', 30),
+    ('8', 30),
+    ('7', 30),
+    ('/', 30),
+    ('6', 30),
+    ('5', 30),
+    ('4', 30),
+    ('*', 30),
+    ('3', 30),
+    ('2', 30),
+    ('1', 30),
+    ('.', 30),
+    ('0', 30),
+    ('=', 30),
+]
+
+row = 0
+col = 0
+for button_text, button_font_size in buttons:
+    if button_text == "=":
+        b = Button(button_frame, text=button_text, bd=12, font=f"calibri 22 bold", padx=18, pady=18, bg="#ffd700")
+    elif button_text == "C":
+        b = Button(button_frame, text=button_text, bd=12, font=f"calibri 22 bold", padx=18, pady=18, bg="#0000ff")
+    else:
+        b = Button(button_frame, text=button_text, bd=12, font=f"calibri 22 bold", padx=18, pady=18, bg="#a9a9a9")
+    b.grid(row=row, column=col, padx=5, pady=5)
+    b.bind("<Button-1>", click)
+    col += 1
+    if col > 3:
+        col = 0
+        row += 1
+
+button_frame.pack()
+
+root.mainloop()
